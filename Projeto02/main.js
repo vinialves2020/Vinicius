@@ -4,6 +4,8 @@ canvas.height= window.innerHeight ;
 canvas.width= window.innerWidth;
 let particulasArray;
 
+ctx.shadowColor = "darkgreen";
+ctx.shadowBlur = 8;
 let mouse={
     x:null,
     y:null,
@@ -55,28 +57,30 @@ class particulas{
             this.y += diry
         }
         */
+        this.cor="green"
         if(distancia<mouse.radius + this.tamanho){
             if(mouse.x < this.x && this.x < canvas.width - this.tamanho * 10){
                 this.x+=5;
-                this.cor = "red"
                 
             }
+          
             if(mouse.x > this.x && this.x >  this.tamanho * 10){
                 this.x-=5;
-                this.cor=getRandomColor()
-                
-            }
+                           }
+            
             if(mouse.y < this.y && this.y < canvas.height - this.tamanho * 10){
                 this.y+=5;
-                
-                
-            }
+                          }
+            
             if(mouse.y > this.y && this.y <  this.tamanho * 10){
                 this.y-=5;
-                
-                
+                           }
+            else{
+                this.cor="red"
             }
+           
         }
+         
         this.x+= this.direX 
         this.y+= this.direY
         this.draw();
@@ -85,9 +89,9 @@ class particulas{
 }
 function init(){
     particulasArray =[]
-    let numDeParticulas = (canvas.height *canvas.width)/500
+    let numDeParticulas = (canvas.height *canvas.width)/800
     for (let i = 0; i < numDeParticulas; i++) {
-        let tam = (Math.random()*5)+1
+        let tam = (Math.random()*5)+3
         let x = (Math.random()*((innerWidth - tam*2)-(tam *2))+tam*2)
         let y = (Math.random()*((innerHeight - tam*2)-(tam *2))+tam*2)
         let dirx = (Math.random()*5) -2.5

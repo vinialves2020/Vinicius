@@ -57,7 +57,8 @@ class particulas{
             this.y += diry
         }
         */
-        this.cor="green"
+        
+        this.cor=getRandomColor()
         if(distancia<mouse.radius + this.tamanho){
             if(mouse.x < this.x && this.x < canvas.width - this.tamanho * 10){
                 this.x+=5;
@@ -76,7 +77,7 @@ class particulas{
                 this.y-=5;
                            }
             else{
-                this.cor="red"
+                this.cor="#3b0066"
             }
            
         }
@@ -89,7 +90,7 @@ class particulas{
 }
 function init(){
     particulasArray =[]
-    let numDeParticulas = (canvas.height *canvas.width)/800
+    let numDeParticulas = (canvas.height *canvas.width)/2000
     for (let i = 0; i < numDeParticulas; i++) {
         let tam = (Math.random()*5)+3
         let x = (Math.random()*((innerWidth - tam*2)-(tam *2))+tam*2)
@@ -106,6 +107,7 @@ function animate(){
     ctx.clearRect(0,0,innerWidth,innerHeight)
 
     for (let i = 0; i < particulasArray.length; i++) {
+        particulasArray[i].draw();
         particulasArray[i].update();
         
     }
@@ -115,7 +117,7 @@ function getRandomColor() {
     var letters = '0123456789ABCDEF';
     var color = '#';
     for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
+      color += letters[Math.floor(Math.random() * 1)];
     }
     return color;
   }

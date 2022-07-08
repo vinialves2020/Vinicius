@@ -3,9 +3,10 @@ const ctx = canvas.getContext("2d");
 canvas.height= window.innerHeight ;
 canvas.width= window.innerWidth;
 let particulasArray;
+let hue =0 ;
 
 ctx.shadowColor = "darkgreen";
-ctx.shadowBlur = 8;
+ctx.shadowBlur = 18;
 let mouse={
     x:null,
     y:null,
@@ -25,16 +26,18 @@ class particulas{
         this.direX=direX;
         this.direY=direY;
         this.tamanho=tamanho;
-        this.cor=getRandomColor()
+        this.cor=cor;
 
     }
     draw(){
         ctx.beginPath();
         ctx.arc(this.x,this.y,this.tamanho,0,Math.PI*2);
-        ctx.fillStyle= this.cor
+        ctx.fillStyle= this.cor;
         ctx.fill();
+        
     }
     update(){
+        
         if(this.x> canvas.width || this.x<0){
             this.direX = -this.direX;
         }
@@ -58,7 +61,7 @@ class particulas{
         }
         */
         
-        this.cor=getRandomColor()
+        
         if(distancia<mouse.radius + this.tamanho){
             if(mouse.x < this.x && this.x < canvas.width - this.tamanho * 10){
                 this.x+=5;
@@ -76,19 +79,37 @@ class particulas{
             if(mouse.y > this.y && this.y <  this.tamanho * 10){
                 this.y-=5;
                            }
-            else{
+           /* else{
                 this.cor="#3b0066"
             }
            
-        }
+        */        }
          
         this.x+= this.direX 
         this.y+= this.direY
+        ctx.shadowColor = 'hsl('+hue+',100%,50%)';
+        this.cor='hsl('+hue+',100%,50%)'
         this.draw();
+        
     }
     
 }
-function init(){
+
+function animate(){
+    
+    hue+=2
+    requestAnimationFrame(animate);
+    ctx.clearRect(0,0,innerWidth,innerHeight)
+
+    for (let i = 0; i < particulasArray.length; i++) {
+        
+        //particulasArray[i].draw();
+        particulasArray[i].update();
+        
+    }  
+}
+
+  function init(){
     particulasArray =[]
     let numDeParticulas = (canvas.height *canvas.width)/2000
     for (let i = 0; i < numDeParticulas; i++) {
@@ -97,27 +118,16 @@ function init(){
         let y = (Math.random()*((innerHeight - tam*2)-(tam *2))+tam*2)
         let dirx = (Math.random()*5) -2.5
         let diry = (Math.random()*5) -2.5
-        let color =getRandomColor()
+        let cor=  'hsl('+hue+',100%,50%)';
 
-        particulasArray.push(new particulas(x,y,dirx,diry,tam,color))
+        particulasArray.push(new particulas(x,y,dirx,diry,tam,cor))
     }
-}
-function animate(){
-    requestAnimationFrame(animate);
-    ctx.clearRect(0,0,innerWidth,innerHeight)
-
-    for (let i = 0; i < particulasArray.length; i++) {
-        particulasArray[i].draw();
-        particulasArray[i].update();
-        
-    }
-    
 }
 function getRandomColor() {
     var letters = '0123456789ABCDEF';
     var color = '#';
     for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 1)];
+      color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
   }
